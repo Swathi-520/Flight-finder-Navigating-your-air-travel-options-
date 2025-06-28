@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flight Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .results {
+      margin-top: 20px;
+    }
+    .flight {
+      background: white;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 5px solid #007bff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Flight Finder</h1>
+  
+  <div class="form-group">
+    <label>From:</label>
+    <input type="text" id="fromCity" placeholder="e.g., New York">
+  </div>
+  
+  <div class="form-group">
+    <label>To:</label>
+    <input type="text" id="toCity" placeholder="e.g., London">
+  </div>
+  
+  <div class="form-group">
+    <label>Date:</label>
+    <input type="date" id="travelDate">
+  </div>
+  
+  <button onclick="searchFlights()">Search Flights</button>
+  
+  <div class="results" id="results"></div>
+
+  <script>
+    const flights = [
+      { flightNo: "AI101", from: "New York", to: "London", date: "2025-07-01", price: 550 },
+      { flightNo: "BA204", from: "New York", to: "London", date: "2025-07-01", price: 600 },
+      { flightNo: "DL305", from: "New York", to: "Paris",  date: "2025-07-01", price: 620 },
+      { flightNo: "AF123", from: "Boston",   to: "Paris",  date: "2025-07-01", price: 700 },
+      { flightNo: "UA789", from: "New York", to: "London", date: "2025-07-02", price: 580 }
+    ];
+
+    function searchFlights() {
+      const from = document.getElementById("fromCity").value.trim().toLowerCase();
+      const to = document.getElementById("toCity").value.trim().toLowerCase();
+      const date = document.getElementById("travelDate").value;
+
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = '';
+
+      const matchingFlights = flights.filter(flight =>
+        flight.from.toLowerCase() === from &&
+        flight.to.toLowerCase() === to &&
+        flight.date === date
+      );
+
+      if (matchingFlights.length === 0) {
+        resultsDiv.innerHTML = "<p>No flights found.</p>";
+        return;
+      }
+
+      matchingFlights.forEach(flight => {
+        const div = document.createElement("div");
+        div.className = "flight";
+        div.innerHTML = `
+          <strong>${flight.flightNo}</strong><br>
+          ${flight.from} ➡️ ${flight.to}<br>
+          Date: ${flight.date}<br>
+          Price: $${flight.price}
+        `;
+        resultsDiv.appendChild(div);
+      });
+    }
+  </script>
+
+</body>
+</html>
